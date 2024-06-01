@@ -1,19 +1,18 @@
 import pandas as pd
 import os
+import matplotlib.pyplot as plt
 
 chemin_data = '../exo_alternance/data'
-
-
-# Vérifiez le chemin du fichier CSV de population
 chemin_population_csv = os.path.join(chemin_data, 'population-communes.csv')
-# Si le fichier n'existe pas, le programme s'arrête et affiche un message d'erreur
+chemin_fichier_json = os.path.join(chemin_data, 'coiffeurs.json')
+
+
+
 if not os.path.exists(chemin_population_csv):
     print(f"Le fichier {chemin_population_csv} n'existe pas. Veuillez vérifier le chemin.")
     exit(1)
 
-# Charger et analyser le fichier JSON pour les salons de coiffure
-chemin_fichier_json = os.path.join(chemin_data, 'coiffeurs.json')
-# Si le fichier n'existe pas, le programme s'arrête et affiche un message d'erreur
+
 if not os.path.exists(chemin_fichier_json):
     print(f"Le fichier {chemin_fichier_json} n'existe pas. Veuillez vérifier le chemin.")
     exit(1)
@@ -47,6 +46,8 @@ nombre_salons_par_ville.columns = ['Ville', 'Nombre de Salons']
 
 # Fusionner les données des salons avec les données de population
 data_merged = pd.merge(nombre_salons_par_ville, population_data, on='Ville', how='inner')
+data_merged = data_merged.sort_values(by='Population', ascending=False)
+# data_merged = data_merged.drop_duplicates(subset='Ville')
 
 # Ajouter une colonne pour le nombre moyen d'habitants par salon
 data_merged['Habitants par Salon'] = (data_merged['Population'] / data_merged['Nombre de Salons']).round(0)
@@ -62,10 +63,16 @@ nombre_salons_par_ville.to_csv(os.path.join(repertoire_resultats, 'nombre_salons
 data_merged[['Ville', 'Nombre de Salons', 'Population']].to_csv(os.path.join(repertoire_resultats, 'salons_population_par_ville.csv'), index=False)
 
 # Sauvegarder le nombre moyen d'habitants par salon par ville en CSV
+data_merged = data_merged.sort_values(by='Habitants par Salon', ascending=False)
+
 data_merged[['Ville', 'Nombre de Salons', 'Population', 'Habitants par Salon']].to_csv(os.path.join(repertoire_resultats, 'habitants_par_salon_par_ville.csv'), index=False)
 
 # Sauvegarder la vue détaillée avec le nombre moyen d'habitants par salon en CSV
 data_merged[['Ville','Habitants par Salon']].to_csv(os.path.join(repertoire_resultats, 'habitants_par_salon.csv'), index=False)
+data_merged[['Ville','Habitants par Salon']].plot(kind='bar', x='Ville', y='Habitants par Salon', legend=True, title='Nombre moyen d\'habitants par salon par ville', figsize=(300, 15), fontsize=5)
+
+# Sauvegarder le graphique en image
+plt.savefig(os.path.join(repertoire_resultats, 'habitants_par_salon.png'))
 
 # Afficher un message de succès lorsque tous les fichiers CSV ont été créés
 print("Les fichiers CSV ont été créés avec succès.")
