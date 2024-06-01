@@ -60,19 +60,19 @@ os.makedirs(repertoire_resultats, exist_ok=True)
 nombre_salons_par_ville.to_csv(os.path.join(repertoire_resultats, 'nombre_salons_par_ville.csv'), index=False)
 
 # Sauvegarder le nombre de salons et la population par ville en CSV
-data_merged[['Ville', 'Nombre de Salons', 'Population']].to_csv(os.path.join(repertoire_resultats, 'salons_population_par_ville.csv'), index=False)
+data_merged[['Ville', 'Nombre de Salons', 'Population']].to_csv(os.path.join(repertoire_resultats, 'nombre_salons_et_nombre_population_par_ville.csv'), index=False)
 
 data_merged = data_merged.sort_values(by='Habitants par Salon', ascending=False)
 
 # Sauvegarder le nombre moyen d'habitants par salon par ville en CSV
-data_merged[['Ville', 'Nombre de Salons', 'Population', 'Habitants par Salon']].to_csv(os.path.join(repertoire_resultats, 'habitants_par_salon_par_ville.csv'), index=False)
+data_merged[['Ville', 'Nombre de Salons', 'Population', 'Habitants par Salon']].to_csv(os.path.join(repertoire_resultats, 'nombre_habitants_moyen_par_salon_par_ville.csv'), index=False)
 
 # Sauvegarder la vue détaillée avec le nombre moyen d'habitants par salon en CSV
-data_merged[['Ville','Habitants par Salon']].to_csv(os.path.join(repertoire_resultats, 'habitants_par_salon.csv'), index=False)
+data_merged[['Ville','Habitants par Salon']].to_csv(os.path.join(repertoire_resultats, 'visualisation_habitants_par_salon.csv'), index=False)
 data_merged[['Ville','Habitants par Salon']].plot(kind='bar', x='Ville', y='Habitants par Salon', legend=True, title='Nombre moyen d\'habitants par salon par ville', figsize=(300, 15), fontsize=5)
 
 # Sauvegarder le graphique en image
-plt.savefig(os.path.join(repertoire_resultats, 'habitants_par_salon.png'))
+plt.savefig(os.path.join(repertoire_resultats, 'visualisation_habitants_par_salon.png'))
 
 # Afficher un message de succès lorsque tous les fichiers CSV ont été créés
 print("Les fichiers CSV ont été créés avec succès.")
