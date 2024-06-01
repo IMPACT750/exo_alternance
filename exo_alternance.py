@@ -62,9 +62,9 @@ nombre_salons_par_ville.to_csv(os.path.join(repertoire_resultats, 'nombre_salons
 # Sauvegarder le nombre de salons et la population par ville en CSV
 data_merged[['Ville', 'Nombre de Salons', 'Population']].to_csv(os.path.join(repertoire_resultats, 'salons_population_par_ville.csv'), index=False)
 
-# Sauvegarder le nombre moyen d'habitants par salon par ville en CSV
 data_merged = data_merged.sort_values(by='Habitants par Salon', ascending=False)
 
+# Sauvegarder le nombre moyen d'habitants par salon par ville en CSV
 data_merged[['Ville', 'Nombre de Salons', 'Population', 'Habitants par Salon']].to_csv(os.path.join(repertoire_resultats, 'habitants_par_salon_par_ville.csv'), index=False)
 
 # Sauvegarder la vue détaillée avec le nombre moyen d'habitants par salon en CSV
